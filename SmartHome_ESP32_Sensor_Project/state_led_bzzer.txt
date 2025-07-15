@@ -1,0 +1,257 @@
+#include <WiFi.h>
+#include <DHT.h>
+#include <LiquidCrystal_I2C.h>
+#include <FirebaseESP32.h>
+
+// Định nghĩa chân kết nối
+#define DHTPIN 4
+#define DHTTYPE DHT22
+#define LDR_PIN 34
+#define RED_LED 15      // LED1 (đỏ)
+#define GREEN_LED 2     // LED2 (xanh)
+#define BUZZER 5
+#define TRIG_PIN 12
+#define ECHO_PIN 13
+
+// Wi-Fi cấu hình
+const char* ssid = "Wokwi-GUEST";
+const char* pass = "";
+
+// Firebase cấu hình
+#define FIREBASE_HOST "https://iot-kt-default-rtdb.firebaseio.com/"
+#define FIREBASE_AUTH "AIzaSyBA0PGHxff1DMYwpTr4hDAVzeBkm0qhTmQ"
+
+DHT dht(DHTPIN, DHTTYPE);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+FirebaseData fbdo;
+
+unsigned long previousMillis = 0;
+unsigned long previousBlinkMillis = 0;
+const long readInterval = 2000;
+const long blinkInterval = 500;
+bool isBlinking = false;
+bool blinkState = false;
+
+// Biến lưu trạng thái LED và buzzer
+bool led1State = false;  // LED1 (đỏ)
+bool led2State = false;  // LED2 (xanh)
+bool buzzerState = false;
+
+float lastTemperature = -1;
+float lastHumidity = -1;
+int lastLDRValue = -1;
+float lastDistance = -1;
+
+float readDistance() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  long duration = pulseIn(ECHO_PIN, HIGH);
+  float distance = duration * 0.034 / 2;
+  if (distance < 2 || distance > 400) {
+    return -1;
+  }
+  return distance;
+}
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("===================================");
+  Serial.println("ESP32 IoT System Starting...");
+  Serial.println("===================================");
+
+  dht.begin();
+  Serial.println("DHT22 Sensor Initialized");
+
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("DHT22 & LDR & DST");
+  Serial.println("LCD Initialized");
+
+  pinMode(RED_LED, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  pinMode(LDR_PIN, INPUT);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  digitalWrite(RED_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(BUZZER, LOW);
+  digitalWrite(TRIG_PIN, LOW);
+  Serial.println("I/O Pins Configured");
+
+  Serial.print("Connecting to WiFi: ");
+  WiFi.begin(ssid, pass);
+  unsigned long wifiTimeout = millis();
+  while (WiFi.status() != WL_CONNECTED && millis() - wifiTimeout < 10000) {
+    delay(500);
+    Serial.print(".");
+  }
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("\nFailed to connect to WiFi!");
+    return;
+  }
+  Serial.println("\nWiFi Connected Successfully");
+
+  Serial.println("Initializing Firebase...");
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+  Firebase.reconnectWiFi(true);
+  Serial.println("Firebase Initialized");
+
+  Serial.println("System Setup Complete");
+  Serial.println("===================================");
+  previousMillis = millis();
+}
+
+void updateLCD(float temperature, float humidity, int ldrValue, float distance) {
+  if (temperature != lastTemperature || humidity != lastHumidity || ldrValue != lastLDRValue || distance != lastDistance) {
+    lcd.setCursor(0, 0);
+    lcd.print("T:");
+    lcd.print(temperature, 1);
+    lcd.print("C H:");
+    lcd.print(humidity, 0);
+    lcd.print("%");
+    lcd.setCursor(0, 1);
+    lcd.print("L:");
+    lcd.print(ldrValue);
+    lcd.print(" D:");
+    lcd.print(distance, 1);
+    lcd.print("cm");
+    lastTemperature = temperature;
+    lastHumidity = humidity;
+    lastLDRValue = ldrValue;
+    lastDistance = distance;
+  }
+}
+
+void sendToFirebase(float temperature, float humidity, int ldrValue, float distance, bool led1, bool led2, bool buzzer) {
+  String path = "/ESP32_Data";
+  FirebaseJson json;
+  json.set("temperature", temperature);
+  json.set("humidity", humidity);
+  json.set("ldrValue", ldrValue);
+  json.set("distance", distance);
+  json.set("led1State", led1);    // Trạng thái LED1 (đỏ)
+  json.set("led2State", led2);    // Trạng thái LED2 (xanh)
+  json.set("buzzerState", buzzer); // Trạng thái buzzer
+
+  if (Firebase.setJSON(fbdo, path, json)) {
+    Serial.println("Data sent to Firebase successfully");
+  } else {
+    Serial.print("Failed to send data to Firebase: ");
+    Serial.println(fbdo.errorReason());
+  }
+}
+
+void loop() {
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= readInterval) {
+    // Đọc dữ liệu từ cảm biến
+    float humidity = dht.readHumidity();
+    float temperature = dht.readTemperature();
+    int ldrValue = analogRead(LDR_PIN);
+    float distance = readDistance();
+
+    // In dữ liệu cảm biến kèm thời gian
+    Serial.print("Time: ");
+    Serial.print(currentMillis / 1000);
+    Serial.println("s");
+    Serial.println("Sensor Readings:");
+    Serial.print("  Temperature: ");
+    if (isnan(temperature)) {
+      Serial.println("Failed to read");
+    } else {
+      Serial.print(temperature, 1);
+      Serial.println(" °C");
+    }
+    Serial.print("  Humidity: ");
+    if (isnan(humidity)) {
+      Serial.println("Failed to read");
+    } else {
+      Serial.print(humidity, 0);
+      Serial.println(" %");
+    }
+    Serial.print("  LDR Value: ");
+    Serial.print(ldrValue);
+    Serial.println(" (0-4095)");
+    Serial.print("  Distance: ");
+    if (distance == -1) {
+      Serial.println("Out of range (2-400 cm)");
+    } else {
+      Serial.print(distance, 1);
+      Serial.println(" cm");
+    }
+
+    // Kiểm tra lỗi và xử lý
+    bool hasError = false;
+    if (isnan(humidity) || isnan(temperature)) {
+      Serial.println("Error: DHT22 sensor reading failed!");
+      hasError = true;
+    }
+    if (distance == -1) {
+      Serial.println("Error: HC-SR04 distance out of range!");
+      hasError = true;
+    }
+
+    if (hasError) {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Sensor Error!");
+    } else {
+      updateLCD(temperature, humidity, ldrValue, distance);
+    }
+
+    // Điều khiển LED và buzzer
+    if ((temperature > 70 && ldrValue < 1000) || (distance != -1 && distance < 10)) {
+      isBlinking = true;
+      digitalWrite(GREEN_LED, LOW);
+      led2State = false;
+    } else if (temperature >= 30 && temperature <= 60 && humidity < 60) {
+      isBlinking = false;
+      digitalWrite(GREEN_LED, HIGH);
+      digitalWrite(RED_LED, LOW);
+      digitalWrite(BUZZER, LOW);
+      led1State = false;
+      led2State = true;
+      buzzerState = false;
+    } else {
+      isBlinking = false;
+      digitalWrite(RED_LED, LOW);
+      digitalWrite(GREEN_LED, LOW);
+      digitalWrite(BUZZER, LOW);
+      led1State = false;
+      led2State = false;
+      buzzerState = false;
+    }
+
+    // Cập nhật trạng thái LED và buzzer khi nhấp nháy
+    if (isBlinking) {
+      if (currentMillis - previousBlinkMillis >= blinkInterval) {
+        blinkState = !blinkState;
+        digitalWrite(RED_LED, blinkState ? HIGH : LOW);
+        digitalWrite(BUZZER, blinkState ? HIGH : LOW);
+        led1State = blinkState;
+        buzzerState = blinkState;
+        previousBlinkMillis = currentMillis;
+      }
+    }
+
+    // In trạng thái LED và buzzer
+    Serial.println("Device States:");
+    Serial.print("  LED1 (Red): ");
+    Serial.println(led1State ? "ON" : "OFF");
+    Serial.print("  LED2 (Green): ");
+    Serial.println(led2State ? "ON" : "OFF");
+    Serial.print("  Buzzer: ");
+    Serial.println(buzzerState ? "ON" : "OFF");
+
+    // Gửi dữ liệu lên Firebase
+    sendToFirebase(temperature, humidity, ldrValue, distance, led1State, led2State, buzzerState);
+
+    Serial.println("-----------------------------------");
+    previousMillis = currentMillis;
+  }
+}

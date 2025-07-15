@@ -1,0 +1,139 @@
+:root {
+  --green: #54b192;
+  --green-l: #a4cec0;
+  --gray: #3f3d56;
+  --smooth: all 0.3s ease-in;
+  --black:#080a0a;
+  --white:#ffffff;
+  --background: #f4f4f4;
+  --text: #3f3d56;
+  --accent: #54b192;
+  --yellow: #FFC107;
+  --yellow-l: #ffd659;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background);
+  margin: 0;
+  padding: 0;
+}
+
+.menu-container {
+  position: absolute;
+  top: 11vh; /* Dưới header */
+  left: 20px;
+  z-index: 1000;
+}
+
+#homeButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--black);
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--smooth);
+}
+
+#homeButton.show {
+  display: none;
+}
+
+#homeButton i {
+  font-size: 24px;
+  color: var(--white);
+}
+
+.room-dropdown {
+  position: fixed;
+  bottom: 90px; /* Cách nút homeButton một khoảng */
+  right: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, auto));
+  gap: 10px;
+  padding: 15px;
+    background-color: #FFFBFB4D;
+    backdrop-filter: blur(20px); /* tạo hiệu ứng mờ nền */
+    border: 1.7px solid #efe5e580;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(21, 18, 18, 0.374);
+  min-width: 280px;
+  transform: scale(0);
+  transform-origin: bottom right;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.room-dropdown.show {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.room-dropdown a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.room-dropdown a:hover,
+.room-dropdown a:visited,
+.room-dropdown a:active,
+.room-dropdown a:focus {
+  text-decoration: none;
+  color: inherit;
+}
+
+.room-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid var(--gray);
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: var(--white);
+  transition: transform 0.2s, background-color 0.3s, color 0.3s;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 300;
+  border-radius: 50px; /* Tăng độ cong để khớp với hình ảnh */
+}
+
+.room-button:hover {
+  transform: translateY(-2px);
+  background-color: var(--yellow-l);
+  color: var(--white);
+}
+
+.room-button.active {
+  background-color: var(--yellow-l);
+  color: var(--text);
+  border: 1px solid var(--yellow-l); /* Loại viền đậm, giữ viền nhẹ */
+  font-weight: 400; /* Giảm độ đậm so với 500 */
+}
+
+.room-button.active:hover {
+  background-color: var(--yellow);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.room-button i {
+  font-size: 20px;
+  margin-right: 8px;
+  color: var(--black);
+}
+
+.room-button.active i {
+  color: var(--text); /* Giữ màu chữ của biểu tượng khi active */
+}

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link 
+      rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+      integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" 
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/style_room.css" />
+    <link rel="stylesheet" href="./css/menu-container.css" />
+    <title>Smart City - Kitchen</title>
+  </head>
+  <body>
+    <!-- overlay -->
+    <section id="overlay" aria-hidden="true"></section>
+    <!-- header -->
+    <header>
+      <div>
+        <nav class="navbar">
+          <!-- menu button setting-->
+          <div class="navbar__icons2">
+            <div class="navbar__icon2"></div>
+          </div>
+          <div class="navbar__titile">
+            <h1><i class="fa-solid fa-bug"></i>Smart Home</h1>
+            <h2>Nhóm 5</h2>
+          </div>
+          <div class="datetime-display">
+            <span id="currentDateTime"></span>
+          </div>          
+        </nav>
+      </div>
+    </header>
+    <div class="wrapper">
+      <!-- menu2 -->
+      <nav class="navbar2">
+        <ul class="navbar__links2">
+          <li class="navbar__link2">
+            <a href="#works">
+              <i class="fa-solid fa-circle-user"></i>Trang Thang
+            </a>
+          </li>
+          <li class="navbar__link2"><a href="#works">Home</a></li>
+          <li class="navbar__link2"><a href="#things">Setting</a></li>
+          <li class="navbar__link2"><a href="#works">Resume</a></li>
+          <li class="navbar__link2"><a href="#works">Home</a></li>
+          <a href="#footer"><button class="navbar__btn">Log Out</button></a>
+        </ul>
+      </nav>
+      <div class="container" style="background-image: url(./img/kitchen_room.jpg);">
+        <section class="room-container">
+          <div>
+            <h1>Kitchen</h1>
+            <p class="room-description">Modern kitchen with appliances and dining area</p>
+              
+            <div class="room-grid">
+              <!-- Cột bên trái -->
+              <div class="left-column">
+                <!-- Room Conditions Card -->
+                <div class="room-card">
+                  <h2>Temperature</h2>
+                  <!-- Temperature Gauge -->
+                  <div class="era-gauge-container">
+                    <arc-gauge
+                      min="0"
+                      max="100"
+                      value="0"
+                      unit="°C"
+                      name=""
+                    ></arc-gauge>
+                    <p id="temperature-warning" class="warning-text"></p>
+                    <p>Current Temperature: <span id="temperature"></span>°C</p>
+                  </div>
+                </div>
+                <div class="room-card">
+                  <h2>Humidity</h2>
+                  <!-- Humidity Gauge -->
+                  <div class="era-gauge-container">
+                    <arc-gauge
+                      min="0"
+                      max="100"
+                      value="0"
+                      unit="%"
+                      name=""
+                    ></arc-gauge>
+                    <p id="humidity-warning" class="warning-text"></p>
+                    <p>Current Humidity: <span id="humidity"></span>%</p>
+                  </div>
+                </div>
+                <div class="room-card">
+                  <h2>Air Quality</h2>
+                  <!-- Air Quality Gauge -->
+                  <div class="era-gauge-container">
+                    <arc-gauge
+                      min="0"
+                      max="500"
+                      value="0"
+                      unit=""
+                      name=""
+                    ></arc-gauge>
+                    <p id="air-quality-warning" class="warning-text"></p>
+                    <p>Current Air Quality: <span id="air_quality"></span></p>
+                    <p class="aqi-label">Scale: AQI (0-500)</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Cột bên phải -->
+              <div class="right-column">
+                <!-- Main Light -->
+                <div class="room-card">
+                  <div class="device-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h2>Main Light</h2>
+                    <label class="switch">
+                      <input type="checkbox" id="mainLightSwitch" onclick="setMainLight(this.checked ? 'ON' : 'OFF')">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <input type="range" min="0" max="100" value="50" class="device-slider" id="mainLightBrightness">  
+                  <div class="device-controls">
+                    <p>Brightness: </p>
+                    <p class="brightness-label" id="mainLightLabel">medium</p> 
+                  </div>
+                </div>
+
+                <!-- Smart Oven -->
+                <div class="room-card">
+                  <div class="device-header">
+                    <i class="fas fa-temperature-high"></i>
+                    <h2>Smart Oven</h2>
+                    <label class="switch">
+                      <input type="checkbox" id="smartOvenSwitch" onclick="setSmartOven(this.checked ? 'ON' : 'OFF')">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <input type="range" min="0" max="250" value="100" class="device-slider" id="smartOvenTemp">  
+                  <div class="device-controls">
+                    <p>Temperature: </p>
+                    <p class="temp-label" id="smartOvenLabel">medium</p>           
+                  </div>
+                </div>
+
+                <!-- Smart Refrigerator -->
+                <div class="room-card">
+                  <div class="device-header">
+                    <i class="fas fa-snowflake"></i>
+                    <h2>Smart Refrigerator</h2>
+                    <label class="switch">
+                      <input type="checkbox" id="smartFridgeSwitch" onclick="setSmartFridge(this.checked ? 'ON' : 'OFF')">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <input type="range" min="0" max="10" value="4" class="device-slider" id="smartFridgeTemp">  
+                  <div class="device-controls">
+                    <p>Temperature: </p>
+                    <p class="temp-label" id="smartFridgeLabel">medium</p>           
+                  </div>
+                </div>
+
+                <!-- Range Hood -->
+                <div class="room-card">
+                  <div class="device-header">
+                    <i class="fas fa-fan"></i>
+                    <h2>Range Hood</h2>
+                    <label class="switch">
+                      <input type="checkbox" id="rangeHoodSwitch" onclick="setRangeHood(this.checked ? 'ON' : 'OFF')">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <input type="range" min="0" max="100" value="50" class="device-slider" id="rangeHoodSpeed">  
+                  <div class="device-controls">
+                    <p>Speed: </p>
+                    <p class="speed-label" id="rangeHoodLabel">medium</p>           
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Home Button and Room Dropdown -->
+        <div class="menu-container">
+          <div class="home-button" id="homeButton">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <div class="room-dropdown" id="roomDropdown">
+            <a href="index.html">
+              <div class="room-button" data-room="Homeroom"><i class="fas fa-home"></i><span>Home</span></div>
+            </a>
+            <a href="living_room.html">
+              <div class="room-button" data-room="livingroom"><i class="fas fa-couch"></i><span>Livingroom</span></div>
+            </a>
+            <a href="kitchen.html">
+              <div class="room-button" data-room="kitchen"><i class="fas fa-utensils"></i><span>Kitchen</span></div>
+            </a>
+            <a href="bed_room.html">
+              <div class="room-button" data-room="bedroom"><i class="fas fa-bed"></i><span>Bedroom</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Gauge -->
+    <script src="./Gauge/arc-gauge.js"></script>
+
+    <!-- Thêm function.js -->
+    <script src="./js/room_functions.js" defer></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;
+            if(b){var d=b.createElement('script');
+            d.innerHTML="window.__CF$cv$params={r:'93d9b3d89e63aff5',t:'MTc0Njg4Mjg5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');
+            a.height=1;a.width=1;a.style.position='absolute';
+            a.style.top=0;a.style.left=0;a.style.border='none';
+            a.style.visibility='hidden';document.body.appendChild(a);
+            if('loading'!==document.readyState)c();
+            else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};
+            document.onreadystatechange=function(b){e(b);
+            'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
+    </script>
+
+    <!-- fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/28c0af3030.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- main js -->
+    <script src="./js/main.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+          https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+    <!-- lien ket voi functions.js -->
+    <script src="./js/firebase.js"></script>
+    <script>
+      // Định nghĩa các biến DOM
+      const temperatureElement = document.getElementById('temperature');
+      const humidityElement = document.getElementById('humidity');
+      const airQualityElement = document.getElementById('air_quality');
+      const temperatureGauge = document.querySelector('arc-gauge[unit="°C"]');
+      const humidityGauge = document.querySelector('arc-gauge[unit="%"]');
+      const airQualityGauge = document.querySelector('arc-gauge[unit=""]');
+
+      // Tham chiếu đến các nút trong Firebase Realtime Database
+      const temperatureRef = firebase.database().ref().child('/Kitchen/temperature');
+      const humidityRef = firebase.database().ref().child('/Kitchen/humidity');
+      const airQualityRef = firebase.database().ref().child('/Kitchen/air_quality');
+
+      // Hàm kiểm tra và tạo đường dẫn nếu chưa tồn tại
+      function ensurePathExists(ref, defaultValue) {
+          ref.once('value', snap => {
+              if (!snap.exists()) {
+                  ref.set(defaultValue);
+              }
+          });
+      }
+
+      // Đảm bảo các đường dẫn tồn tại với giá trị mặc định là 0
+      ensurePathExists(temperatureRef, 0);
+      ensurePathExists(humidityRef, 0);
+      ensurePathExists(airQualityRef, 0);
+
+      // Lắng nghe và cập nhật dữ liệu nhiệt độ
+      temperatureRef.on('value', snap => {
+          const value = snap.val();
+          if (value !== null) {
+              temperatureElement.innerText = value;
+              temperatureGauge.setAttribute('value', value);
+              updateTemperatureWarning(); // Gọi hàm cảnh báo
+          }
+      });
+
+      // Lắng nghe và cập nhật dữ liệu độ ẩm
+      humidityRef.on('value', snap => {
+          const value = snap.val();
+          if (value !== null) {
+              humidityElement.innerText = value;
+              humidityGauge.setAttribute('value', value);
+              updateHumidityWarning(); // Gọi hàm cảnh báo
+          }
+      });
+
+      // Lắng nghe và cập nhật dữ liệu chất lượng không khí
+      airQualityRef.on('value', snap => {
+          const value = snap.val();
+          if (value !== null) {
+              airQualityElement.innerText = value;
+              airQualityGauge.setAttribute('value', value);
+              updateAirQualityWarning(); // Gọi hàm cảnh báo
+          }
+      });
+    </script>
+    <script>
+      // Định nghĩa các biến DOM
+      const mainLightSwitch = document.getElementById('mainLightSwitch');
+      const mainLightBrightness = document.getElementById('mainLightBrightness');
+      const smartOvenSwitch = document.getElementById('smartOvenSwitch');
+      const smartOvenTemp = document.getElementById('smartOvenTemp');
+      const smartFridgeSwitch = document.getElementById('smartFridgeSwitch');
+      const smartFridgeTemp = document.getElementById('smartFridgeTemp');
+      const rangeHoodSwitch = document.getElementById('rangeHoodSwitch');
+      const rangeHoodSpeed = document.getElementById('rangeHoodSpeed');
+      const coffeeMakerSwitch = document.getElementById('coffeeMakerSwitch');
+      const coffeeMakerStrength = document.getElementById('coffeeMakerStrength');
+
+      // Tham chiếu đến các nút trong Firebase Realtime Database
+      const mainLightStateRef = firebase.database().ref('/Kitchen/main-light/state');
+      const mainLightBrightnessRef = firebase.database().ref('/Kitchen/main-light/brightness');
+      const smartOvenStateRef = firebase.database().ref('/Kitchen/smart-oven/state');
+      const smartOvenTempRef = firebase.database().ref('/Kitchen/smart-oven/temp');
+      const smartFridgeStateRef = firebase.database().ref('/Kitchen/smart-fridge/state');
+      const smartFridgeTempRef = firebase.database().ref('/Kitchen/smart-fridge/temp');
+      const rangeHoodStateRef = firebase.database().ref('/Kitchen/range-hood/state');
+      const rangeHoodSpeedRef = firebase.database().ref('/Kitchen/range-hood/speed');
+      const coffeeMakerStateRef = firebase.database().ref('/Kitchen/coffee-maker/state');
+      const coffeeMakerStrengthRef = firebase.database().ref('/Kitchen/coffee-maker/strength');
+
+      // Hàm kiểm tra và tạo đường dẫn nếu chưa tồn tại
+      function ensurePathExists(ref, defaultValue) {
+          ref.once('value', snap => {
+              if (!snap.exists()) {
+                  ref.set(defaultValue);
+              }
+          });
+      }
+
+      // Đảm bảo các đường dẫn tồn tại với giá trị mặc định
+      ensurePathExists(mainLightStateRef, 'OFF');
+      ensurePathExists(mainLightBrightnessRef, 0);
+      ensurePathExists(smartOvenStateRef, 'OFF');
+      ensurePathExists(smartOvenTempRef, 100);
+      ensurePathExists(smartFridgeStateRef, 'OFF');
+      ensurePathExists(smartFridgeTempRef, 4);
+      ensurePathExists(rangeHoodStateRef, 'OFF');
+      ensurePathExists(rangeHoodSpeedRef, 0);
+      ensurePathExists(coffeeMakerStateRef, 'OFF');
+      ensurePathExists(coffeeMakerStrengthRef, 0);
+
+      // Hàm gửi trạng thái thiết bị và cập nhật giá trị slider nếu bật
+      function setMainLight(state) {
+          mainLightStateRef.set(state);
+          if (state === 'ON') {
+              mainLightBrightnessRef.once('value', (snap) => {
+                  const currentBrightness = snap.val();
+                  mainLightBrightness.value = currentBrightness;
+                  updateBrightness(currentBrightness);
+              });
+          } else {
+              mainLightBrightnessRef.set(0);
+              mainLightBrightness.value = 0;
+          }
+      }
+
+      function setSmartOven(state) {
+          smartOvenStateRef.set(state);
+          if (state === 'ON') {
+              smartOvenTempRef.once('value', (snap) => {
+                  const currentTemp = snap.val();
+                  smartOvenTemp.value = currentTemp;
+                  updateOvenTemp(currentTemp);
+              });
+          } else {
+              smartOvenTempRef.set(0);
+              smartOvenTemp.value = 0;
+          }
+      }
+
+      function setSmartFridge(state) {
+          smartFridgeStateRef.set(state);
+          if (state === 'ON') {
+              smartFridgeTempRef.once('value', (snap) => {
+                  const currentTemp = snap.val();
+                  smartFridgeTemp.value = currentTemp;
+                  updateFridgeTemp(currentTemp);
+              });
+          } else {
+              smartFridgeTempRef.set(0);
+              smartFridgeTemp.value = 0;
+          }
+      }
+
+      function setRangeHood(state) {
+          rangeHoodStateRef.set(state);
+          if (state === 'ON') {
+              rangeHoodSpeedRef.once('value', (snap) => {
+                  const currentSpeed = snap.val();
+                  rangeHoodSpeed.value = currentSpeed;
+                  updateHoodSpeed(currentSpeed);
+              });
+          } else {
+              rangeHoodSpeedRef.set(0);
+              rangeHoodSpeed.value = 0;
+          }
+      }
+
+      function setCoffeeMaker(state) {
+          coffeeMakerStateRef.set(state);
+          if (state === 'ON') {
+              coffeeMakerStrengthRef.once('value', (snap) => {
+                  const currentStrength = snap.val();
+                  coffeeMakerStrength.value = currentStrength;
+                  updateCoffeeStrength(currentStrength);
+              });
+          } else {
+              coffeeMakerStrengthRef.set(0);
+              coffeeMakerStrength.value = 0;
+          }
+      }
+
+      // Hàm gửi giá trị slider lên Firebase
+      function updateBrightness(value) {
+          if (mainLightSwitch.checked) {
+              mainLightBrightnessRef.set(Number(value));
+          }
+      }
+
+      function updateOvenTemp(value) {
+          if (smartOvenSwitch.checked) {
+              smartOvenTempRef.set(Number(value));
+          }
+      }
+
+      function updateFridgeTemp(value) {
+          if (smartFridgeSwitch.checked) {
+              smartFridgeTempRef.set(Number(value));
+          }
+      }
+
+      function updateHoodSpeed(value) {
+          if (rangeHoodSwitch.checked) {
+              rangeHoodSpeedRef.set(Number(value));
+          }
+      }
+
+      function updateCoffeeStrength(value) {
+          if (coffeeMakerSwitch.checked) {
+              coffeeMakerStrengthRef.set(Number(value));
+          }
+      }
+
+      // Lắng nghe thay đổi từ Firebase và cập nhật giao diện
+      mainLightStateRef.on('value', (snap) => {
+          const state = snap.val();
+          const checkboxState = mainLightSwitch.checked;
+          if (state === 'ON' && !checkboxState) {
+              mainLightSwitch.checked = true;
+          } else if (state === 'OFF' && checkboxState) {
+              mainLightSwitch.checked = false;
+              mainLightBrightnessRef.set(0);
+          }
+      });
+
+      mainLightBrightnessRef.on('value', (snap) => {
+          const brightness = snap.val();
+          if (mainLightSwitch.checked) {
+              mainLightBrightness.value = brightness;
+          } else {
+              mainLightBrightness.value = 0;
+              mainLightBrightnessRef.set(0);
+          }
+      });
+
+      smartOvenStateRef.on('value', (snap) => {
+          const state = snap.val();
+          const checkboxState = smartOvenSwitch.checked;
+          if (state === 'ON' && !checkboxState) {
+              smartOvenSwitch.checked = true;
+          } else if (state === 'OFF' && checkboxState) {
+              smartOvenSwitch.checked = false;
+              smartOvenTempRef.set(0);
+          }
+      });
+
+      smartOvenTempRef.on('value', (snap) => {
+          const temp = snap.val();
+          if (smartOvenSwitch.checked) {
+              smartOvenTemp.value = temp;
+          } else {
+              smartOvenTemp.value = 0;
+              smartOvenTempRef.set(0);
+          }
+      });
+
+      smartFridgeStateRef.on('value', (snap) => {
+          const state = snap.val();
+          const checkboxState = smartFridgeSwitch.checked;
+          if (state === 'ON' && !checkboxState) {
+              smartFridgeSwitch.checked = true;
+          } else if (state === 'OFF' && checkboxState) {
+              smartFridgeSwitch.checked = false;
+              smartFridgeTempRef.set(0);
+          }
+      });
+
+      smartFridgeTempRef.on('value', (snap) => {
+          const temp = snap.val();
+          if (smartFridgeSwitch.checked) {
+              smartFridgeTemp.value = temp;
+          } else {
+              smartFridgeTemp.value = 0;
+              smartFridgeTempRef.set(0);
+          }
+      });
+
+      rangeHoodStateRef.on('value', (snap) => {
+          const state = snap.val();
+          const checkboxState = rangeHoodSwitch.checked;
+          if (state === 'ON' && !checkboxState) {
+              rangeHoodSwitch.checked = true;
+          } else if (state === 'OFF' && checkboxState) {
+              rangeHoodSwitch.checked = false;
+              rangeHoodSpeedRef.set(0);
+          }
+      });
+
+      rangeHoodSpeedRef.on('value', (snap) => {
+          const speed = snap.val();
+          if (rangeHoodSwitch.checked) {
+              rangeHoodSpeed.value = speed;
+          } else {
+              rangeHoodSpeed.value = 0;
+              rangeHoodSpeedRef.set(0);
+          }
+      });
+
+      coffeeMakerStateRef.on('value', (snap) => {
+          const state = snap.val();
+          const checkboxState = coffeeMakerSwitch.checked;
+          if (state === 'ON' && !checkboxState) {
+              coffeeMakerSwitch.checked = true;
+          } else if (state === 'OFF' && checkboxState) {
+              coffeeMakerSwitch.checked = false;
+              coffeeMakerStrengthRef.set(0);
+          }
+      });
+
+      coffeeMakerStrengthRef.on('value', (snap) => {
+          const strength = snap.val();
+          if (coffeeMakerSwitch.checked) {
+              coffeeMakerStrength.value = strength;
+          } else {
+              coffeeMakerStrength.value = 0;
+              coffeeMakerStrengthRef.set(0);
+          }
+      });
+
+      // Đồng bộ trạng thái ban đầu khi tải trang
+      mainLightBrightnessRef.once('value', (snap) => {
+          const brightness = snap.val();
+          mainLightBrightness.value = mainLightSwitch.checked ? brightness : 0;
+      });
+
+      smartOvenTempRef.once('value', (snap) => {
+          const temp = snap.val();
+          smartOvenTemp.value = smartOvenSwitch.checked ? temp : 0;
+      });
+
+      smartFridgeTempRef.once('value', (snap) => {
+          const temp = snap.val();
+          smartFridgeTemp.value = smartFridgeSwitch.checked ? temp : 0;
+      });
+
+      rangeHoodSpeedRef.once('value', (snap) => {
+          const speed = snap.val();
+          rangeHoodSpeed.value = rangeHoodSwitch.checked ? speed : 0;
+      });
+
+      coffeeMakerStrengthRef.once('value', (snap) => {
+          const strength = snap.val();
+          coffeeMakerStrength.value = coffeeMakerSwitch.checked ? strength : 0;
+      });
+
+      // Gắn sự kiện cho các checkbox và slider
+      mainLightSwitch.addEventListener('change', () => {
+          const state = mainLightSwitch.checked ? 'ON' : 'OFF';
+          setMainLight(state);
+      });
+
+      mainLightBrightness.addEventListener('input', () => {
+          if (mainLightSwitch.checked) {
+              updateBrightness(mainLightBrightness.value);
+          }
+      });
+
+      smartOvenSwitch.addEventListener('change', () => {
+          const state = smartOvenSwitch.checked ? 'ON' : 'OFF';
+          setSmartOven(state);
+      });
+
+      smartOvenTemp.addEventListener('input', () => {
+          if (smartOvenSwitch.checked) {
+              updateOvenTemp(smartOvenTemp.value);
+          }
+      });
+
+      smartFridgeSwitch.addEventListener('change', () => {
+          const state = smartFridgeSwitch.checked ? 'ON' : 'OFF';
+          setSmartFridge(state);
+      });
+
+      smartFridgeTemp.addEventListener('input', () => {
+          if (smartFridgeSwitch.checked) {
+              updateFridgeTemp(smartFridgeTemp.value);
+          }
+      });
+
+      rangeHoodSwitch.addEventListener('change', () => {
+          const state = rangeHoodSwitch.checked ? 'ON' : 'OFF';
+          setRangeHood(state);
+      });
+
+      rangeHoodSpeed.addEventListener('input', () => {
+          if (rangeHoodSwitch.checked) {
+              updateHoodSpeed(rangeHoodSpeed.value);
+          }
+      });
+
+      coffeeMakerSwitch.addEventListener('change', () => {
+          const state = coffeeMakerSwitch.checked ? 'ON' : 'OFF';
+          setCoffeeMaker(state);
+      });
+
+      coffeeMakerStrength.addEventListener('input', () => {
+          if (coffeeMakerSwitch.checked) {
+              updateCoffeeStrength(coffeeMakerStrength.value);
+          }
+      });
+    </script>
+  </body>
+</html>

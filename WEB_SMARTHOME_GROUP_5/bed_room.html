@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link 
+      rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+      integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" 
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/style_room.css" />
+    <link rel="stylesheet" href="./css/menu-container.css" />
+    <title>Smart Home</title>
+  </head>
+  <body>
+    <!-- overlay -->
+    <section id="overlay" aria-hidden="true"></section>
+    <!-- header -->
+    <header>
+      <div>
+        <nav class="navbar">
+          <!-- menu button setting-->
+          <div class="navbar__icons2">
+            <div class="navbar__icon2"></div>
+          </div>
+          <div class="navbar__titile">
+            <h1><i class="fa-solid fa-bug"></i>Smart Home</h1>
+            <h2>Nhóm 5</h2>
+          </div>
+          <div class="datetime-display">
+            <span id="currentDateTime"></span>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="wrapper">
+      <!-- menu2 -->
+      <nav class="navbar2">
+        <ul class="navbar__links2">
+          <li class="navbar__link2">
+            <a href="#works">
+              <i class="fa-solid fa-circle-user"></i>Trang Thang
+            </a>
+          </li>
+          <li class="navbar__link2"><a href="#works">Home</a></li>
+          <li class="navbar__link2"><a href="#things">Setting</a></li>
+          <li class="navbar__link2"><a href="#works">Resume</a></li>
+          <li class="navbar__link2"><a href="#works">Home</a></li>
+          <a href="#footer"><button class="navbar__btn">Log Out</button></a>
+        </ul>
+      </nav>
+      <div class="container" style="background-image: url(./img/bed_room.jpg);">
+        <section class="room-container">
+          <div>
+            <h1>Bedroom</h1>
+            <p class="room-description">Master bedroom with queen bed and walk-in closet</p>
+              
+            <div class="room-grid">
+              <!-- Cột bên trái -->
+              <div class="left-column">
+                <!-- Room Conditions Card -->
+                <div class="room-card">
+                  <h2>Temperature</h2>
+                  <!-- Temperature Gauge -->
+                  <div class="era-gauge-container">
+                    <arc-gauge
+                      min="0"
+                      max="100"
+                      value="0"
+                      unit="°C"
+                      name=""
+                    ></arc-gauge>
+                    <p id="temperature-warning" class="warning-text"></p>
+                    <p>Current Temperature: <span id="temperature"></span>°C</p>
+                  </div>
+                </div>
+                <div class="room-card">
+                  <h2>Humidity</h2>
+                  <!-- Humidity Gauge -->
+                  <div class="era-gauge-container">
+                    <arc-gauge
+                      min="0"
+                      max="100"
+                      value="0"
+                      unit="%"
+                      name=""
+                    ></arc-gauge>
+                    <p id="humidity-warning" class="warning-text"></p>
+                    <p>Current Humidity: <span id="humidity"></span>%</p>
+                  </div>
+                </div>
+                <div class="room-card">
+                  <h2>Air Quality</h2>
+                  <!-- Air Quality Gauge -->
+                  <div class="era-gauge-container">
+                    <arc-gauge
+                      min="0"
+                      max="500"
+                      value="0"
+                      unit=""
+                      name=""
+                    ></arc-gauge>
+                    <p id="air-quality-warning" class="warning-text"></p>
+                    <p>Current Air Quality: <span id="air_quality"></span></p>
+                    <p class="aqi-label">Scale: AQI (0-500)</p>
+                  </div>
+                </div>
+              </div>
+              
+                  <!-- Cột bên phải -->
+                  <div class="right-column">
+                    <!-- Bedside Lamp -->
+                    <div class="room-card">
+                      <div class="device-header">
+                        <i class="fas fa-lightbulb"></i>
+                        <h2>Bedside Lamp</h2>
+                        <label class="switch">
+                          <input type="checkbox" id="bedsideLampSwitch" onclick="setBedlight(this.checked ? 'ON' : 'OFF')">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <input type="range" min="0" max="100" value="50" class="device-slider" id="bedsideLampBrightness">  
+                      <div class="device-controls">
+                        <p>Brightness: </p>
+                        <p class="brightness-label" id="bedsideLampLabel">medium</p> 
+                      </div>
+                    </div>
+
+                    <!-- Smart Blinds -->
+                    <div class="room-card">
+                      <div class="device-header">
+                        <i class="fas fa-barcode"></i>
+                        <h2>Smart Blinds</h2>
+                        <label class="switch">
+                          <input type="checkbox" id="smartBlindsSwitch" onclick="setSmartBlind(this.checked ? 'ON' : 'OFF')">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <div class="device-controls">
+                        <p>Auto: </p>
+                        <p class="status-label" id="smartBlindsLabel">not active</p> 
+                      </div>
+                    </div>
+
+                    <!-- Smart TV -->
+                    <div class="room-card">
+                      <div class="device-header">
+                        <i class="fas fa-tv"></i>
+                        <h2>Smart TV</h2>
+                        <label class="switch">
+                          <input type="checkbox" id="smartTVSwitch" onclick="setTV(this.checked ? 'ON' : 'OFF')">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <input type="range" min="0" max="100" value="50" class="device-slider" id="smartTVVolume">  
+                      <div class="device-controls">
+                        <p>Volume: </p>
+                        <p class="volume-label" id="smartTVLabel">medium</p>           
+                      </div>
+                    </div>
+
+                    <!-- Air Conditioner -->
+                    <div class="room-card">
+                      <div class="device-header">
+                        <i class="fas fa-snowflake"></i>
+                        <h2>Air Conditioner</h2>
+                        <label class="switch">
+                          <input type="checkbox" id="airConditionerSwitch" onclick="setAir(this.checked ? 'ON' : 'OFF')">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <input type="range" min="16" max="31" value="22" class="device-slider" id="airConditionerTemp"> 
+                      <div class="device-controls">
+                        <p>Temperature: </p>
+                        <p class="temp-label" id="airConditionerLabel">medium</p>        
+                      </div>
+                    </div>
+
+                    <!-- Ceiling Fan -->
+                    <div class="room-card">
+                      <div class="device-header">
+                        <i class="fas fa-fan"></i>
+                        <h2>Ceiling Fan</h2>
+                        <label class="switch">
+                          <input type="checkbox" id="ceilingFanSwitch" onclick="setFan(this.checked ? 'ON' : 'OFF')">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                      <div><input type="range" min="0" max="100" value="50" class="device-slider" id="ceilingFanSpeed"></div>
+                      <div class="device-controls">
+                        <p>Fan Speed: </p>
+                        <p class="speed-label" id="ceilingFanLabel">medium</p>                                   
+                      </div>                      
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </section>
+        <!-- Home Button and Room Dropdown -->
+        <div class="menu-container">
+          <div class="home-button" id="homeButton">
+            <i class="fas fa-bed"></i>
+          </div>
+          <div class="room-dropdown" id="roomDropdown">
+            <a href="index.html">
+              <div class="room-button" data-room="Homeroom"><i class="fas fa-home"></i></i><span>Home</span></div>
+            </a>
+            <a href="living_room.html">
+              <div class="room-button" data-room="livingroom"><i class="fas fa-couch"></i><span>Livingroom</span></div>
+            </a>
+            <a href="kitchen.html">
+              <div class="room-button" data-room="kitchen"><i class="fas fa-utensils"></i><span>Kitchen</span></div>
+            </a>
+            <a href="bed_room.html">
+              <div class="room-button" data-room="bedroom"><i class="fas fa-bed"></i><span>Bedroom</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Gauge -->
+    <script src="./Gauge/arc-gauge.js"></script>
+
+    <!-- Thêm function.js -->
+    <script src="./js/room_functions.js" defer></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;
+            if(b){var d=b.createElement('script');
+            d.innerHTML="window.__CF$cv$params={r:'93d9b3d89e63aff5',t:'MTc0Njg4Mjg5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');
+            a.height=1;a.width=1;a.style.position='absolute';
+            a.style.top=0;a.style.left=0;a.style.border='none';
+            a.style.visibility='hidden';document.body.appendChild(a);
+            if('loading'!==document.readyState)c();
+            else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};
+            document.onreadystatechange=function(b){e(b);
+            'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
+    </script>
+
+    <!-- fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/28c0af3030.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- main js -->
+    <script src="./js/main.js"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+          https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+    <!-- lien ket voi functions.js -->
+    <script src="./js/firebase.js"></script>
+      <script>
+        // Định nghĩa các biến DOM
+        const temperatureElement = document.getElementById('temperature');
+        const humidityElement = document.getElementById('humidity');
+        const airQualityElement = document.getElementById('air_quality');
+        const temperatureGauge = document.querySelector('arc-gauge[unit="°C"]');
+        const humidityGauge = document.querySelector('arc-gauge[unit="%"]');
+        const airQualityGauge = document.querySelector('arc-gauge[unit=""]');
+
+        // Tham chiếu đến các nút trong Firebase Realtime Database
+        const temperatureRef = firebase.database().ref().child('/Bedroom/temperature');
+        const humidityRef = firebase.database().ref().child('/Bedroom/humidity');
+        const airQualityRef = firebase.database().ref().child('/Bedroom/air_quality');
+
+        // Hàm kiểm tra và tạo đường dẫn nếu chưa tồn tại
+        function ensurePathExists(ref, defaultValue) {
+            ref.once('value', snap => {
+                if (!snap.exists()) {
+                    ref.set(defaultValue);
+                }
+            });
+        }
+
+        // Đảm bảo các đường dẫn tồn tại với giá trị mặc định là 0
+        ensurePathExists(temperatureRef, 0);
+        ensurePathExists(humidityRef, 0);
+        ensurePathExists(airQualityRef, 0);
+
+        // Lắng nghe và cập nhật dữ liệu nhiệt độ
+        temperatureRef.on('value', snap => {
+            const value = snap.val();
+            if (value !== null) {
+                temperatureElement.innerText = value;
+                temperatureGauge.setAttribute('value', value);
+                updateTemperatureWarning(); // Gọi hàm cảnh báo
+            }
+        });
+
+        // Lắng nghe và cập nhật dữ liệu độ ẩm
+        humidityRef.on('value', snap => {
+            const value = snap.val();
+            if (value !== null) {
+                humidityElement.innerText = value;
+                humidityGauge.setAttribute('value', value);
+                updateHumidityWarning(); // Gọi hàm cảnh báo
+            }
+        });
+
+        // Lắng nghe và cập nhật dữ liệu chất lượng không khí
+        airQualityRef.on('value', snap => {
+            const value = snap.val();
+            if (value !== null) {
+                airQualityElement.innerText = value;
+                airQualityGauge.setAttribute('value', value);
+                updateAirQualityWarning(); // Gọi hàm cảnh báo
+            }
+        });
+      </script>
+    <script>
+// Định nghĩa các biến DOM
+const bedsideLampSwitch = document.getElementById('bedsideLampSwitch');
+const bedsideLampBrightness = document.getElementById('bedsideLampBrightness');
+const smartTVSwitch = document.getElementById('smartTVSwitch');
+const smartTVVolume = document.getElementById('smartTVVolume');
+const airConditionerSwitch = document.getElementById('airConditionerSwitch');
+const airConditionerTemp = document.getElementById('airConditionerTemp');
+const ceilingFanSwitch = document.getElementById('ceilingFanSwitch');
+const ceilingFanSpeed = document.getElementById('ceilingFanSpeed');
+const smartBlindsSwitch = document.getElementById('smartBlindsSwitch');
+const smartBlindsLabel = document.getElementById('smartBlindsLabel');
+
+// Tham chiếu đến các nút trong Firebase Realtime Database
+const bedsideLampStateRef = firebase.database().ref('/Bedroom/main-light/state');
+const bedsideLampBrightnessRef = firebase.database().ref('/Bedroom/main-light/brightness');
+const smartTVStateRef = firebase.database().ref('/Bedroom/smartTV/state');
+const smartTVVolumeRef = firebase.database().ref('/Bedroom/smartTV/volume');
+const airConditionerStateRef = firebase.database().ref('/Bedroom/air-conditioner/state');
+const airConditionerTempRef = firebase.database().ref('/Bedroom/air-conditioner/temp');
+const ceilingFanStateRef = firebase.database().ref('/Bedroom/fan/state');
+const ceilingFanSpeedRef = firebase.database().ref('/Bedroom/fan/speed');
+const smartBlindsStateRef = firebase.database().ref('/Bedroom/smart-blinds/state');
+const smartBlindsAutoRef = firebase.database().ref('/Bedroom/smart-blinds/auto');
+
+// Hàm kiểm tra và tạo đường dẫn nếu chưa tồn tại
+function ensurePathExists(ref, defaultValue) {
+    ref.once('value', snap => {
+        if (!snap.exists()) {
+            ref.set(defaultValue);
+        }
+    });
+}
+
+// Đảm bảo các đường dẫn tồn tại với giá trị mặc định
+ensurePathExists(bedsideLampStateRef, 'OFF');
+ensurePathExists(bedsideLampBrightnessRef, 0);
+ensurePathExists(smartTVStateRef, 'OFF');
+ensurePathExists(smartTVVolumeRef, 0);
+ensurePathExists(airConditionerStateRef, 'OFF');
+ensurePathExists(airConditionerTempRef, 0);
+ensurePathExists(ceilingFanStateRef, 'OFF');
+ensurePathExists(ceilingFanSpeedRef, 0);
+ensurePathExists(smartBlindsStateRef, 'OFF');
+ensurePathExists(smartBlindsAutoRef, 'not active');
+
+// Hàm gửi trạng thái thiết bị và cập nhật giá trị slider nếu bật
+function setBedlight(state) {
+    bedsideLampStateRef.set(state);
+    if (state === 'ON') {
+        bedsideLampBrightnessRef.once('value', (snap) => {
+            const currentBrightness = snap.val();
+            bedsideLampBrightness.value = currentBrightness;
+            updateBrightness(currentBrightness);
+        });
+    } else {
+        bedsideLampBrightnessRef.set(0);
+        bedsideLampBrightness.value = 0;
+    }
+}
+
+function setTV(state) {
+    smartTVStateRef.set(state);
+    if (state === 'ON') {
+        smartTVVolumeRef.once('value', (snap) => {
+            const currentVolume = snap.val();
+            smartTVVolume.value = currentVolume;
+            updateTVVolume(currentVolume);
+        });
+    } else {
+        smartTVVolumeRef.set(0);
+        smartTVVolume.value = 0;
+    }
+}
+
+function setAir(state) {
+    airConditionerStateRef.set(state);
+    if (state === 'ON') {
+        airConditionerTempRef.once('value', (snap) => {
+            const currentTemp = snap.val();
+            airConditionerTemp.value = currentTemp;
+            updateACTemp(currentTemp);
+        });
+    } else {
+        airConditionerTempRef.set(0);
+        airConditionerTemp.value = 0;
+    }
+}
+
+function setFan(state) {
+    ceilingFanStateRef.set(state);
+    if (state === 'ON') {
+        ceilingFanSpeedRef.once('value', (snap) => {
+            const currentSpeed = snap.val();
+            ceilingFanSpeed.value = currentSpeed;
+            updateFanSpeed(currentSpeed);
+        });
+    } else {
+        ceilingFanSpeedRef.set(0);
+        ceilingFanSpeed.value = 0;
+    }
+}
+
+function setSmartBlind(state) {
+    smartBlindsStateRef.set(state);
+    if (state === 'ON') {
+        smartBlindsAutoRef.once('value', (snap) => {
+            const currentAuto = snap.val();
+            smartBlindsLabel.textContent = currentAuto;
+        });
+    } else {
+        smartBlindsAutoRef.set('not active');
+        smartBlindsLabel.textContent = 'not active';
+    }
+}
+
+// Hàm gửi giá trị slider lên Firebase
+function updateBrightness(value) {
+    if (bedsideLampSwitch.checked) {
+        bedsideLampBrightnessRef.set(Number(value));
+    }
+}
+
+function updateTVVolume(value) {
+    if (smartTVSwitch.checked) {
+        smartTVVolumeRef.set(Number(value));
+    }
+}
+
+function updateACTemp(value) {
+    if (airConditionerSwitch.checked) {
+        airConditionerTempRef.set(Number(value));
+    }
+}
+
+function updateFanSpeed(value) {
+    if (ceilingFanSwitch.checked) {
+        ceilingFanSpeedRef.set(Number(value));
+    }
+}
+
+// Lắng nghe thay đổi từ Firebase và cập nhật giao diện
+bedsideLampStateRef.on('value', (snap) => {
+    const state = snap.val();
+    const checkboxState = bedsideLampSwitch.checked;
+    if (state === 'ON' && !checkboxState) {
+        bedsideLampSwitch.checked = true;
+    } else if (state === 'OFF' && checkboxState) {
+        bedsideLampSwitch.checked = false;
+        bedsideLampBrightnessRef.set(0); // Đặt giá trị brightness về 0 trên Firebase
+    }
+});
+
+bedsideLampBrightnessRef.on('value', (snap) => {
+    const brightness = snap.val();
+    if (bedsideLampSwitch.checked) {
+        bedsideLampBrightness.value = brightness;
+    } else {
+        bedsideLampBrightness.value = 0;
+        bedsideLampBrightnessRef.set(0); // Đảm bảo giá trị brightness trên Firebase là 0 khi switch tắt
+    }
+});
+
+smartTVStateRef.on('value', (snap) => {
+    const state = snap.val();
+    const checkboxState = smartTVSwitch.checked;
+    if (state === 'ON' && !checkboxState) {
+        smartTVSwitch.checked = true;
+    } else if (state === 'OFF' && checkboxState) {
+        smartTVSwitch.checked = false;
+        smartTVVolumeRef.set(0); // Đặt giá trị volume về 0 trên Firebase
+    }
+});
+
+smartTVVolumeRef.on('value', (snap) => {
+    const volume = snap.val();
+    if (smartTVSwitch.checked) {
+        smartTVVolume.value = volume;
+    } else {
+        smartTVVolume.value = 0;
+        smartTVVolumeRef.set(0); // Đảm bảo giá trị volume trên Firebase là 0 khi switch tắt
+    }
+});
+
+airConditionerStateRef.on('value', (snap) => {
+    const state = snap.val();
+    const checkboxState = airConditionerSwitch.checked;
+    if (state === 'ON' && !checkboxState) {
+        airConditionerSwitch.checked = true;
+    } else if (state === 'OFF' && checkboxState) {
+        airConditionerSwitch.checked = false;
+        airConditionerTempRef.set(0); // Đặt giá trị temp về 0 trên Firebase
+    }
+});
+
+airConditionerTempRef.on('value', (snap) => {
+    const temp = snap.val();
+    if (airConditionerSwitch.checked) {
+        airConditionerTemp.value = temp;
+    } else {
+        airConditionerTemp.value = 0;
+        airConditionerTempRef.set(0); // Đảm bảo giá trị temp trên Firebase là 0 khi switch tắt
+    }
+});
+
+ceilingFanStateRef.on('value', (snap) => {
+    const state = snap.val();
+    const checkboxState = ceilingFanSwitch.checked;
+    if (state === 'ON' && !checkboxState) {
+        ceilingFanSwitch.checked = true;
+    } else if (state === 'OFF' && checkboxState) {
+        ceilingFanSwitch.checked = false;
+        ceilingFanSpeedRef.set(0); // Đặt giá trị speed về 0 trên Firebase
+    }
+});
+
+ceilingFanSpeedRef.on('value', (snap) => {
+    const speed = snap.val();
+    if (ceilingFanSwitch.checked) {
+        ceilingFanSpeed.value = speed;
+    } else {
+        ceilingFanSpeed.value = 0;
+        ceilingFanSpeedRef.set(0); // Đảm bảo giá trị speed trên Firebase là 0 khi switch tắt
+    }
+});
+
+smartBlindsStateRef.on('value', (snap) => {
+    const state = snap.val();
+    const checkboxState = smartBlindsSwitch.checked;
+    if (state === 'ON' && !checkboxState) {
+        smartBlindsSwitch.checked = true;
+    } else if (state === 'OFF' && checkboxState) {
+        smartBlindsSwitch.checked = false;
+        smartBlindsAutoRef.set('not active'); // Đặt giá trị auto về 'not active' trên Firebase
+    }
+});
+
+smartBlindsAutoRef.on('value', (snap) => {
+    const auto = snap.val();
+    smartBlindsLabel.textContent = smartBlindsSwitch.checked ? auto : 'not active';
+});
+
+// Đồng bộ trạng thái ban đầu khi tải trang
+bedsideLampBrightnessRef.once('value', (snap) => {
+    const brightness = snap.val();
+    bedsideLampBrightness.value = bedsideLampSwitch.checked ? brightness : 0;
+});
+
+smartTVVolumeRef.once('value', (snap) => {
+    const volume = snap.val();
+    smartTVVolume.value = smartTVSwitch.checked ? volume : 0;
+});
+
+airConditionerTempRef.once('value', (snap) => {
+    const temp = snap.val();
+    airConditionerTemp.value = airConditionerSwitch.checked ? temp : 0;
+});
+
+ceilingFanSpeedRef.once('value', (snap) => {
+    const speed = snap.val();
+    ceilingFanSpeed.value = ceilingFanSwitch.checked ? speed : 0;
+});
+
+smartBlindsAutoRef.once('value', (snap) => {
+    const auto = snap.val();
+    smartBlindsLabel.textContent = smartBlindsSwitch.checked ? auto : 'not active';
+});
+
+// Gắn sự kiện cho các checkbox và slider
+bedsideLampSwitch.addEventListener('change', () => {
+    const state = bedsideLampSwitch.checked ? 'ON' : 'OFF';
+    setBedlight(state);
+});
+
+bedsideLampBrightness.addEventListener('input', () => {
+    if (bedsideLampSwitch.checked) {
+        updateBrightness(bedsideLampBrightness.value);
+    }
+});
+
+smartTVSwitch.addEventListener('change', () => {
+    const state = smartTVSwitch.checked ? 'ON' : 'OFF';
+    setTV(state);
+});
+
+smartTVVolume.addEventListener('input', () => {
+    if (smartTVSwitch.checked) {
+        updateTVVolume(smartTVVolume.value);
+    }
+});
+
+airConditionerSwitch.addEventListener('change', () => {
+    const state = airConditionerSwitch.checked ? 'ON' : 'OFF';
+    setAir(state);
+});
+
+airConditionerTemp.addEventListener('input', () => {
+    if (airConditionerSwitch.checked) {
+        updateACTemp(airConditionerTemp.value);
+    }
+});
+
+ceilingFanSwitch.addEventListener('change', () => {
+    const state = ceilingFanSwitch.checked ? 'ON' : 'OFF';
+    setFan(state);
+});
+
+ceilingFanSpeed.addEventListener('input', () => {
+    if (ceilingFanSwitch.checked) {
+        updateFanSpeed(ceilingFanSpeed.value);
+    }
+});
+
+smartBlindsSwitch.addEventListener('change', () => {
+    const state = smartBlindsSwitch.checked ? 'ON' : 'OFF';
+    setSmartBlind(state);
+});
+    </script>
+  </body>
+</html>

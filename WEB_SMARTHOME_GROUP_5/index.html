@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <link 
+      rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+      integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" 
+    />
+    <!-- main css -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/style_room.css" />
+    <link rel="stylesheet" href="./css/menu-container.css" />
+    <title>Smart City</title>
+
+
+    <!-- Bổ sung css -->
+     <style>
+        .room-card p {
+            color: rgb(0, 0, 0) !important;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+  </head>
+  <body>
+    <!-- overlay -->
+    <section id="overlay" aria-hidden="true"></section>
+    <!-- header -->
+    <header>
+      <div>
+        <nav class="navbar">
+          <!-- menu button setting-->
+          <div class="navbar__icons2">
+            <div class="navbar__icon2"></div>
+          </div>
+          <div class="navbar__titile">
+            <h1><i class="fa-solid fa-bug"></i>Smart Home</h1>
+            <h2>Nhóm 5</h2>
+
+          </div>
+          <div class="datetime-display">
+            <span id="currentDateTime"></span>
+          </div>
+          <!-- links1 -->
+          <ul class="navbar__links">
+            <li class="navbar__link"><a href="#banner">Home</a></li>
+            <li class="navbar__link"><a href="#works">Works</a></li>
+            <li class="navbar__link"><a href="#About">About</a></li>
+            <a href="#footer"><button class="navbar__btn">Contact</button></a>
+          </ul>
+          <!-- menu button -->
+          <div class="navbar__icons">
+            <div class="navbar__icon"></div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+
+
+
+    <div class="wrapper">
+      <!-- menu2 -->
+      <nav class="navbar2">
+        <ul class="navbar__links2">
+          <li class="navbar__link2">
+            <a href="#works">
+              <i class="fa-solid fa-circle-user"></i>Trang Thang
+            </a>
+          </li>
+          <li class="navbar__link2"><a href="#Home">Home</a></li>
+          <li class="navbar__link2"><a href="#things">Setting</a></li>
+          <li class="navbar__link2"><a href="#works">Works</a></li>
+          <li class="navbar__link2"><a href="#About">About</a></li>
+          <a href="#footer"><button class="navbar__btn">Log Out</button></a>
+        </ul>
+      </nav>
+      <div class="container">
+        <!--banner-->
+        <section id="banner" style="background-image: url('./img/naruto.gif'); background-size: cover; background-position: center;">
+          <div class="mini_container">
+            <div class="banner__img">
+              <img src="./img/naruto.gif" alt="Anh nhom">
+            </div>
+            <!--heading-->
+            <div class="banner__heading">
+              <h1>Chào mừng bạn đến với Smart Home</h1>
+              <p>
+              Chào mừng bạn đến với Smart Home – nơi công nghệ biến ngôi nhà bạn thành tổ ấm tiện nghi và thông minh hơn bao giờ hết. Tận hưởng cuộc sống dễ dàng, an toàn và đầy cảm hứng ngay hôm nay!
+              </p>
+              <a href="#footer"><button class="banner_btn">View More</button></a>
+            </div>
+          </div>
+        </section>
+        <!-- works -->
+        <section id="works" style="background-image: url('./img/naruto2.gif'); background-size: cover; background-position: center;">
+            <h2 class="section-title">Chọn Phòng Điều Khiển</h2>
+            <div class="room-control-grid">
+              <!-- Living Room -->
+              <div class="room-card">
+                <i class="fas fa-couch room-icon"></i>
+                <h3>Living Room</h3>
+                <p>Điều khiển đèn, quạt và cảm biến tại phòng khách.</p>
+                <a href="living_room.html"><button class="room-btn">Điều Khiển</button></a>
+              </div>
+              <!-- Kitchen -->
+              <div class="room-card">
+                <i class="fas fa-utensils room-icon"></i>
+                <h3>Kitchen</h3>
+                <p>Giám sát thiết bị bếp và cảm biến khí gas.</p>
+                <a href="kitchen.html"><button class="room-btn">Điều Khiển</button></a>
+              </div>
+              <!-- Bedroom -->
+              <div class="room-card">
+                <i class="fas fa-bed room-icon"></i>
+                <h3>Bedroom</h3>
+                <p>Điều khiển đèn ngủ, điều hòa và an ninh.</p>
+                <a href="bed_room.html"><button class="room-btn">Điều Khiển</button></a>
+              </div>
+              <!-- Thêm phòng khác nếu cần -->
+          
+          </div>
+        </section>
+
+        <!-- abount -->
+        <section id="About" >
+            <!-- heading -->
+            <h2>Giới thiệu thành viên</h2>
+            <!-- item 1 -->
+            <div class="things__item">
+              <!-- img -->
+              <img src="./img/Hoai Dat.jpg" alt="illustration of women" />
+              <!-- text -->
+              <div class="things__item--heading">
+                <h3>Lê Hoài Đạt</h3>
+                <p>
+                  Không coá gì là không thể với một người lun biết cố gắng.
+                </p>
+              </div>
+            </div>
+            <!-- item 2 -->
+            <div class="things__item">
+              <!-- img -->
+              <img src="./img/Thang.jpg" alt="illustration of women" />
+              <!-- text -->
+              <div class="things__item--heading">
+                <h3>Trang Đặng Vĩ Thắng </h3>
+                <p>
+                  Dẫu buồn, vẫn bước, vì đời còn ánh sáng phía trước.
+                </p>
+              </div>
+            </div>
+            <!-- item 3 -->
+            <div class="things__item">
+              <!-- img -->
+              <img src="./img/Viet Duc.jpg" alt="illustration of computer" />
+              <!-- text -->
+              <div class="things__item--heading">
+                <h3>Nguyễn Viết Đức</h3>
+                <p>
+                  Đừng cố gắng tìm một phiên bản khác tốt hơn mình của hiện tại
+                </p>
+              </div>
+            </div>
+        </section>
+
+         <!-- footer -->
+        <footer id="footer">
+            <!-- heading -->
+            <div class="footer__heading">
+              <h1>Liên hệ với chúng tôi qua :</h1>
+              <!-- contact -->
+              <div class="footer__contact">
+                <a href="tel:901234567">
+                  <i class="fas fa-phone-alt"></i>
+                  <p>039260xxxxx</p>
+                </a>
+                <a href="mailto:info@me.com">
+                  <i class="fas fa-envelope"></i>
+                  <p>lehoaidatxxxxx@gmail.com</p>
+                </a>
+                <a href="tel:901234567">
+                  <i class="fas fa-phone-alt"></i>
+                  <p>037671xxxxx</p>
+                </a>
+                <a href="mailto:info@me.com">
+                  <i class="fas fa-envelope"></i>
+                  <p>trangthangxxxxx@gmail.com</p>
+                </a>
+                <a href="tel:901234567">
+                  <i class="fas fa-phone-alt"></i>
+                  <p>086795xxxxx</p>
+                </a>
+                <a href="mailto:info@me.com">
+                  <i class="fas fa-envelope"></i>
+                  <p>duc.nguyenviet.exxxxx@gmail.com</p>
+                </a>
+              </div>
+              <div class="banner__socials">
+                <a href="#"><i class="fab fa-dribbble"></i></a>
+                <a href="#"><i class="fab fa-behance"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              </div>
+            </div>
+        </footer>
+
+
+        <!-- Home Button and Room Dropdown -->
+        <div class="menu-container">
+          <div class="home-button" id="homeButton">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="room-dropdown" id="roomDropdown">
+            <a href="index.html">
+              <div class="room-button" data-room="Homeroom"><i class="fas fa-home"></i><span>Home</span></div>
+            </a>
+            <a href="living_room.html">
+              <div class="room-button" data-room="livingroom"><i class="fas fa-couch"></i><span>Livingroom</span></div>
+            </a>
+            <a href="kitchen.html">
+              <div class="room-button" data-room="kitchen"><i class="fas fa-utensils"></i><span>Kitchen</span></div>
+            </a>
+            <a href="bed_room.html">
+              <div class="room-button" data-room="bedroom"><i class="fas fa-bed"></i><span>Bedroom</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Gauge -->
+    <script src="./Gauge/arc-gauge.js"></script>
+
+    <!-- Thêm function.js -->
+    <script src="./js/room_functions.js" defer></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;
+            if(b){var d=b.createElement('script');
+            d.innerHTML="window.__CF$cv$params={r:'93d9b3d89e63aff5',t:'MTc0Njg4Mjg5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');
+            a.height=1;a.width=1;a.style.position='absolute';
+            a.style.top=0;a.style.left=0;a.style.border='none';
+            a.style.visibility='hidden';document.body.appendChild(a);
+            if('loading'!==document.readyState)c();
+            else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};
+            document.onreadystatechange=function(b){e(b);
+            'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
+    </script>
+
+    <!-- fontawesome -->
+    <script
+      src="https://kit.fontawesome.com/28c0af3030.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- main js -->
+    <script src="./js/main.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+          https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+    <!-- lien ket voi functions.js -->
+    <script src="./js/firebase.js"></script>
+
+
+
+
+  </body>
+</html>
